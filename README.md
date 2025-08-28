@@ -1,36 +1,131 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI Workshop
 
-## Getting Started
+40分ワークショップ専用の超軽量 Next.js アプリです。参加者がスマホから文章生成と画像生成を最短手数で体験できます。
 
-First, run the development server:
+## 機能
+
+- **文章生成**: OpenAI GPT-3.5-turboを使用したストリーミング文章生成
+- **画像生成**: OpenAI DALL-E-3を使用した画像生成
+- **プリセット**: 生活系・仕事系・遊び系の3種類のプリセットプロンプト
+- **レート制限**: IP単位での使用制限（文章生成: 1分5回、画像生成: 1分3回）
+- **安全ガード**: NGワードチェック機能
+- **モバイル最適化**: タップ領域44px以上、大きめフォント
+
+## セットアップ
+
+### 1. 依存関係のインストール
+
+```bash
+npm install
+```
+
+### 2. 環境変数の設定
+
+`.env.local` ファイルを作成し、OpenAI API キーを設定してください：
+
+```bash
+OPENAI_API_KEY=your_openai_api_key_here
+```
+
+### 3. 開発サーバーの起動
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+http://localhost:3000 でアプリケーションにアクセスできます。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## デプロイ
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Vercel へのデプロイ
 
-## Learn More
+1. Vercel にプロジェクトをインポート
+2. Environment Variables に `OPENAI_API_KEY` を設定
+3. デプロイ実行
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+# Vercel CLI を使用する場合
+vercel --prod
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## API エンドポイント
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 文章生成
+- **POST** `/api/text/generate`
+- **パラメータ**: `{ prompt: string, presetId?: 'life' | 'work' | 'fun' }`
+- **レスポンス**: ストリーミングテキスト
 
-## Deploy on Vercel
+### 画像生成
+- **POST** `/api/image/generate`
+- **パラメータ**: `{ prompt: string, size: 512 | 768 }`
+- **レスポンス**: PNG画像バイナリ
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 技術仕様
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **フレームワーク**: Next.js v15 (App Router)
+- **実行環境**: Vercel Edge Runtime
+- **UI**: shadcn/ui + Tailwind CSS
+- **アイコン**: lucide-react
+- **言語**: TypeScript
+
+## 注意事項
+
+### 体験用生成物について
+- 生成される文章・画像は体験目的です
+- 商用利用や公開時はOpenAIの利用規約をご確認ください
+- 個人情報や機密情報の入力は禁止です
+
+### レート制限
+- 文章生成: 1分間に5回まで
+- 画像生成: 1分間に3回まで
+- IP単位での制限（簡易実装）
+
+### 入力制限
+- 文章プロンプト: 最大2000文字
+- 画像プロンプト: 最大300文字
+
+## ファイル構成
+
+```
+src/
+├── app/
+│   ├── api/
+│   │   ├── text/generate/route.ts    # 文章生成API
+│   │   └── image/generate/route.ts   # 画像生成API
+│   ├── layout.tsx                    # ルートレイアウト
+│   ├── page.tsx                      # メインページ
+│   └── globals.css                   # グローバルスタイル
+├── components/
+│   ├── ui/                          # shadcn/ui コンポーネント
+│   ├── TextGenerator.tsx            # 文章生成コンポーネント
+│   └── ImageGenerator.tsx           # 画像生成コンポーネント
+└── lib/
+    ├── openai.ts                    # OpenAI クライアント
+    ├── rateLimit.ts                 # レート制限
+    ├── safety.ts                    # NGワードチェック
+    └── utils.ts                     # ユーティリティ関数
+```
+
+## 開発
+
+### テスト実行
+
+```bash
+npm test
+```
+
+### ビルド
+
+```bash
+npm run build
+```
+
+### リント
+
+```bash
+npm run lint
+```
+
+## ライセンス
+
+MIT License
