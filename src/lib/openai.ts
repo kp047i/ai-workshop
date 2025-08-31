@@ -40,7 +40,7 @@ export async function generateText(prompt: string): Promise<ReadableStream<Uint8
 
 export async function generateImage(prompt: string, size: 512 | 768 = 512) {
   const response = await openai.images.generate({
-    model: "dall-e-3",
+    model: "gpt-image-1",
     prompt,
     n: 1,
     size: size === 512 ? "1024x1024" : "1024x1024",
