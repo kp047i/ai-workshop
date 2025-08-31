@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Download } from "lucide-react";
 import { toast } from "sonner";
 
@@ -67,26 +67,26 @@ export function ImageGenerator() {
           <div className="space-y-4">
             <div>
               <div className="flex justify-between items-center mb-2">
-                <h3 className="font-medium">プロンプト入力</h3>
-                <span className="text-sm text-muted-foreground">
+                <h3 className="font-semibold text-lg">プロンプト入力</h3>
+                <span className="text-base text-muted-foreground">
                   {characterCount}/300
                 </span>
               </div>
-              <Input
-                placeholder="生成したい画像の説明を入力してください..."
+              <Textarea
+                placeholder="どのような画像を作りたいか、ここに入力してください..."
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
-                className="text-base min-h-[44px]"
+                className="text-lg min-h-[56px] resize-none"
                 maxLength={300}
               />
             </div>
 
             <div>
-              <h3 className="font-medium mb-3">画像サイズ</h3>
+              <h3 className="font-semibold text-lg mb-3">画像サイズ</h3>
               <div className="grid grid-cols-3 gap-3">
                 <Button
                   variant={size === 512 ? "default" : "outline"}
-                  className={`min-h-[44px] font-medium transition-all duration-200 ${
+                  className={`min-h-[48px] font-medium transition-all duration-200 text-base ${
                     size === 512
                       ? "bg-gradient-to-r from-purple-500 to-purple-600 text-white shadow-md"
                       : "border-2 hover:border-purple-300 hover:bg-purple-50"
@@ -97,7 +97,7 @@ export function ImageGenerator() {
                 </Button>
                 <Button
                   variant={size === 768 ? "default" : "outline"}
-                  className={`min-h-[44px] font-medium transition-all duration-200 ${
+                  className={`min-h-[48px] font-medium transition-all duration-200 text-base ${
                     size === 768
                       ? "bg-gradient-to-r from-purple-500 to-purple-600 text-white shadow-md"
                       : "border-2 hover:border-purple-300 hover:bg-purple-50"
@@ -108,7 +108,7 @@ export function ImageGenerator() {
                 </Button>
                 <Button
                   variant="outline"
-                  className="min-h-[44px] border-2 border-gray-200 text-gray-400 cursor-not-allowed"
+                  className="min-h-[48px] border-2 border-gray-200 text-gray-400 cursor-not-allowed text-base"
                   disabled
                 >
                   ■ 正方形のみ
@@ -119,7 +119,7 @@ export function ImageGenerator() {
             <Button
               onClick={handleGenerate}
               disabled={!prompt.trim() || isGenerating}
-              className="w-full min-h-[44px] bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-medium shadow-md transition-all duration-200"
+              className="w-full min-h-[52px] bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-semibold text-lg shadow-md transition-all duration-200"
             >
               {isGenerating ? (
                 <>
@@ -139,13 +139,13 @@ export function ImageGenerator() {
           <CardContent className="p-6">
             <div className="space-y-4">
               <div className="flex justify-between items-center">
-                <h3 className="font-medium">生成結果</h3>
+                <h3 className="font-semibold text-lg">生成結果</h3>
                 {imageUrl && (
                   <Button
                     onClick={handleDownload}
                     variant="outline"
                     size="sm"
-                    className="min-h-[44px]"
+                    className="min-h-[52px]"
                   >
                     <Download className="w-4 h-4 mr-2" />
                     ダウンロード
@@ -169,7 +169,7 @@ export function ImageGenerator() {
               </div>
 
               {imageUrl && (
-                <p className="text-sm text-muted-foreground text-center">
+                <p className="text-base text-muted-foreground text-center">
                   生成物は体験用です。商用利用時はOpenAIの利用規約をご確認ください。
                 </p>
               )}

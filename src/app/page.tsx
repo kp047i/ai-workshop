@@ -23,17 +23,17 @@ export default function Home() {
                 <Sparkles className="w-6 h-6 text-white" />
               </div>
             </div>
-            <p className="text-muted-foreground text-sm">
+            <p className="text-muted-foreground text-lg">
               文章生成と画像生成を体験してみましょう
             </p>
           </CardHeader>
-        <CardContent className="space-y-3 text-sm">
+        <CardContent className="space-y-3 text-base">
             <Alert className="border-blue-200 bg-blue-50/50">
               <AlertDescription>
                 <div className="space-y-2">
                   <p className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>
-                    個人情報や機密情報の入力は禁止です
+                    個人情報や機密情報は入力しないでください
                   </p>
                   <p className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>
@@ -41,7 +41,7 @@ export default function Home() {
                   </p>
                   <p className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>
-                    うまくいかない時は指示を具体的にして再生成をお試しください
+                    うまくいかない時は、より詳しく指示してもう一度お試しください
                   </p>
                 </div>
               </AlertDescription>
@@ -50,16 +50,16 @@ export default function Home() {
         </Card>
 
         <Tabs defaultValue="text" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-8 h-14 p-1 bg-white/80 backdrop-blur-sm shadow-md border-0">
+          <TabsList className="grid w-full grid-cols-2 mb-8 h-16 p-1 bg-white/80 backdrop-blur-sm shadow-md border-0">
             <TabsTrigger 
               value="text" 
-              className="text-base min-h-[44px] font-medium data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-blue-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200"
+              className="text-lg min-h-[48px] font-medium data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-blue-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200"
             >
               📝 文章生成
             </TabsTrigger>
             <TabsTrigger 
               value="image" 
-              className="text-base min-h-[44px] font-medium data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200"
+              className="text-lg min-h-[48px] font-medium data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200"
             >
               🎨 画像生成
             </TabsTrigger>

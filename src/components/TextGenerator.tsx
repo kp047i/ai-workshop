@@ -39,19 +39,19 @@ const promptCategories: PromptCategory[] = [
         title: "食材を使った料理レシピ",
         template:
           "冷蔵庫にある【卵・キャベツ】を使った夕飯レシピを考えてください",
-        hint: "食材を変えると別のレシピが提案される（例: 卵→豆腐）",
+        hint: "食材を変えると別のレシピが提案されます（例: 卵→豆腐）",
       },
       {
         id: "health",
         title: "健康的な生活習慣",
         template: "【運動不足】を解消する簡単な方法を3つ教えてください",
-        hint: "課題を変えて相談できる（例: 運動不足→睡眠不足、ストレス）",
+        hint: "課題を変えて相談できます（例: 運動不足→睡眠不足、ストレス）",
       },
       {
         id: "household",
         title: "家事の効率化",
         template: "【掃除】を効率的に行うコツを教えてください",
-        hint: "家事を変更可能（例: 掃除→洗濯、料理の下準備）",
+        hint: "家事を変更できます（例: 掃除→洗濯、料理の下準備）",
       },
     ],
   },
@@ -64,20 +64,20 @@ const promptCategories: PromptCategory[] = [
         title: "ビジネスメール作成",
         template:
           "【上司】に送る先日の会議でのアイデア提案に感謝するメールを作成してください",
-        hint: "相手を変えると文章の雰囲気も変わる（例: 上司→友人、取引先）",
+        hint: "相手を変えると文章の雰囲気も変わります（例: 上司→友人、取引先）",
       },
       {
         id: "meeting",
         title: "会議の議題整理",
         template: "【新サービス企画】の議題と進行順序を整理してください",
-        hint: "議題を変えるとアウトプットが変わる（例: 新サービス企画→プロジェクト進捗）",
+        hint: "議題を変えるとアウトプットが変わります（例: 新サービス企画→プロジェクト進捗）",
       },
       {
         id: "presentation",
         title: "プレゼン資料作成",
         template:
           "【新商品の提案】に関する5分間のプレゼンの構成を考えてください",
-        hint: "テーマを変更可能（例: 新商品の提案→業務改善案、予算計画）",
+        hint: "テーマを変更できます（例: 新商品の提案→業務改善案、予算計画）",
       },
     ],
   },
@@ -89,19 +89,19 @@ const promptCategories: PromptCategory[] = [
         id: "catchcopy",
         title: "キャッチコピー作成",
         template: "新しいカフェのキャッチコピーを【3つ】考えてください",
-        hint: "店の種類や数を変えて遊べる（例: カフェ→ゲームセンター、3つ→5つ）",
+        hint: "店の種類や数を変えて遊べます（例: カフェ→ゲームセンター、3つ→5つ）",
       },
       {
         id: "story",
         title: "ショートストーリー",
         template: "迷子の【犬】が家に帰るまでの短い物語を作成してください",
-        hint: "主人公を変えると物語が変化（例: 犬→ロボット、猫）",
+        hint: "主人公を変えると物語が変化します（例: 犬→ロボット、猫）",
       },
       {
         id: "quiz",
         title: "クイズ作成",
         template: "【日本の歴史】に関する3択クイズを5問作ってください",
-        hint: "ジャンルを変更可能（例: 日本の歴史→映画、スポーツ、科学）",
+        hint: "ジャンルを変更できます（例: 日本の歴史→映画、スポーツ、科学）",
       },
     ],
   },
@@ -273,7 +273,7 @@ export function TextGenerator() {
         <CardContent className="p-6">
           <div className="space-y-4">
             <div>
-              <h3 className="font-medium mb-3">カテゴリ選択</h3>
+              <h3 className="font-semibold mb-3 text-lg">カテゴリ選択</h3>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
                 {promptCategories.map((category) => (
                   <Button
@@ -281,7 +281,7 @@ export function TextGenerator() {
                     variant={
                       selectedCategory === category.id ? "default" : "outline"
                     }
-                    className={`min-h-[44px] text-center font-medium transition-all duration-200 ${
+                    className={`min-h-[48px] text-center font-medium transition-all duration-200 text-base px-4 ${
                       selectedCategory === category.id
                         ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md shadow-blue-200 ring-2 ring-blue-300 ring-offset-1"
                         : "hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700"
@@ -295,7 +295,7 @@ export function TextGenerator() {
 
               {selectedCategoryData && (
                 <div className="space-y-3">
-                  <h4 className="font-medium text-sm text-muted-foreground">
+                  <h4 className="font-semibold text-base text-muted-foreground">
                     プロンプトを選択
                   </h4>
                   <div className="grid grid-cols-1 gap-3">
@@ -323,7 +323,7 @@ export function TextGenerator() {
                               <div className="w-full h-full rounded-full bg-white scale-50" />
                             )}
                           </div>
-                          <h5 className={`font-medium text-base ${
+                          <h5 className={`font-semibold text-lg ${
                             selectedPromptId === option.id
                               ? "text-blue-700"
                               : "text-gray-800"
@@ -332,7 +332,7 @@ export function TextGenerator() {
                           </h5>
                         </div>
                         {option.hint && (
-                          <p className="text-xs text-muted-foreground pl-7 leading-relaxed">
+                          <p className="text-sm text-muted-foreground pl-7 leading-relaxed">
                             💡 {option.hint}
                           </p>
                         )}
@@ -347,16 +347,16 @@ export function TextGenerator() {
 
             <div>
               <div className="flex justify-between items-center mb-2">
-                <h3 className="font-medium">プロンプト入力</h3>
-                <span className="text-sm text-muted-foreground">
+                <h3 className="font-semibold text-lg">プロンプト入力</h3>
+                <span className="text-base text-muted-foreground">
                   {characterCount}/2000
                 </span>
               </div>
               <Textarea
-                placeholder="生成したい文章の指示を入力してください..."
+                placeholder="どのような文章を作りたいか、ここに入力してください..."
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
-                className="min-h-[120px] text-base"
+                className="min-h-[120px] text-lg"
                 maxLength={2000}
               />
             </div>
@@ -365,7 +365,7 @@ export function TextGenerator() {
               <Button
                 onClick={handleGenerate}
                 disabled={!prompt.trim() || isGenerating}
-                className="min-h-[44px] flex-1 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-medium shadow-md transition-all duration-200"
+                className="min-h-[52px] flex-1 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold text-lg shadow-md transition-all duration-200"
               >
                 {isGenerating ? (
                   <>
@@ -379,7 +379,7 @@ export function TextGenerator() {
               <Button
                 onClick={() => setShowHistory(!showHistory)}
                 variant="outline"
-                className={`min-h-[44px] transition-all duration-200 ${
+                className={`min-h-[52px] transition-all duration-200 ${
                   showHistory
                     ? "bg-blue-50 border-blue-300 text-blue-700"
                     : "hover:bg-blue-50 hover:border-blue-300"
@@ -391,7 +391,7 @@ export function TextGenerator() {
                 <Button
                   onClick={handleStop}
                   variant="outline"
-                  className="min-h-[44px] border-red-300 text-red-600 hover:bg-red-50"
+                  className="min-h-[52px] border-red-300 text-red-600 hover:bg-red-50"
                 >
                   <Square className="w-4 h-4" />
                 </Button>
@@ -401,7 +401,7 @@ export function TextGenerator() {
             {showHistory && (
               <div className="mt-4 space-y-3">
                 <div className="flex justify-between items-center">
-                  <h4 className="font-medium text-sm text-muted-foreground flex items-center gap-2">
+                  <h4 className="font-semibold text-base text-muted-foreground flex items-center gap-2">
                     <Clock className="w-4 h-4" />
                     プロンプト履歴
                   </h4>
@@ -423,7 +423,7 @@ export function TextGenerator() {
                 
                 <div className="max-h-40 overflow-y-auto space-y-2">
                   {promptHistory.length === 0 ? (
-                    <p className="text-sm text-muted-foreground text-center py-4">
+                    <p className="text-base text-muted-foreground text-center py-4">
                       履歴はまだありません
                     </p>
                   ) : (
@@ -434,7 +434,7 @@ export function TextGenerator() {
                         onClick={() => setPrompt(item.prompt)}
                       >
                         <div className="flex justify-between items-start gap-2 mb-1">
-                          <p className="text-sm font-medium text-gray-800 line-clamp-2">
+                          <p className="text-base font-semibold text-gray-800 line-clamp-2">
                             {item.prompt}
                           </p>
                           <Button
@@ -452,7 +452,7 @@ export function TextGenerator() {
                             <Trash2 className="w-3 h-3" />
                           </Button>
                         </div>
-                        <div className="flex justify-between items-center text-xs text-muted-foreground">
+                        <div className="flex justify-between items-center text-sm text-muted-foreground">
                           <span>{item.categoryLabel || "カテゴリなし"}</span>
                           <span>{new Date(item.timestamp).toLocaleString("ja-JP", {
                             month: "short",
@@ -476,13 +476,13 @@ export function TextGenerator() {
           <CardContent className="p-6">
             <div className="space-y-4">
               <div className="flex justify-between items-center">
-                <h3 className="font-medium">生成結果</h3>
+                <h3 className="font-semibold text-lg">生成結果</h3>
                 <div className="flex gap-2">
                   <Button
                     onClick={handleBackToPrompt}
                     variant="outline"
                     size="sm"
-                    className="min-h-[44px]"
+                    className="min-h-[52px]"
                   >
                     <ArrowLeft className="w-4 h-4" />
                   </Button>
@@ -490,7 +490,7 @@ export function TextGenerator() {
                     onClick={handleRegenerate}
                     variant="outline"
                     size="sm"
-                    className="min-h-[44px]"
+                    className="min-h-[52px]"
                     disabled={isGenerating}
                   >
                     <RotateCcw className="w-4 h-4" />
@@ -499,7 +499,7 @@ export function TextGenerator() {
                     onClick={handleCopy}
                     variant="outline"
                     size="sm"
-                    className="min-h-[44px]"
+                    className="min-h-[52px]"
                     disabled={!output}
                   >
                     <Copy className="w-4 h-4" />
@@ -508,7 +508,7 @@ export function TextGenerator() {
               </div>
 
               <div className="bg-gradient-to-br from-gray-50 to-blue-50 p-4 rounded-lg min-h-[120px] border border-blue-100">
-                <p className="whitespace-pre-wrap text-base leading-relaxed">
+                <p className="whitespace-pre-wrap text-lg leading-relaxed">
                   {output || (isGenerating ? "生成中..." : "")}
                 </p>
               </div>
