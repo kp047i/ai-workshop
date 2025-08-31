@@ -17,7 +17,7 @@ export default function Home() {
                 <Bot className="w-6 h-6 text-white" />
               </div>
               <CardTitle className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                AI体験ワークショップ
+                おらいの学びのワークショップ
               </CardTitle>
               <div className="p-2 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl">
                 <Sparkles className="w-6 h-6 text-white" />
