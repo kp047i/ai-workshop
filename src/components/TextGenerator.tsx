@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
-import { Copy, RotateCcw, ArrowLeft, Square } from "lucide-react";
+import { Copy, RotateCcw, ArrowLeft, Square, History, Trash2, Clock } from "lucide-react";
 import { toast } from "sonner";
 
 interface PromptOption {
@@ -19,6 +19,14 @@ interface PromptCategory {
   id: string;
   label: string;
   options: PromptOption[];
+}
+
+interface PromptHistoryItem {
+  id: string;
+  prompt: string;
+  timestamp: number;
+  categoryId?: string;
+  categoryLabel?: string;
 }
 
 const promptCategories: PromptCategory[] = [
@@ -107,6 +115,53 @@ export function TextGenerator() {
     useState<AbortController | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [selectedPromptId, setSelectedPromptId] = useState<string>("");
+  const [promptHistory, setPromptHistory] = useState<PromptHistoryItem[]>([]);
+  const [showHistory, setShowHistory] = useState(false);
+
+  // localStorage から履歴を読み込み
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("promptHistory");
+      if (saved) {
+        setPromptHistory(JSON.parse(saved));
+      }
+    } catch (error) {
+      console.error("履歴の読み込みに失敗しました:", error);
+    }
+  }, []);
+
+  // 履歴が変更されたときにlocalStorageに保存
+  useEffect(() => {
+    try {
+      localStorage.setItem("promptHistory", JSON.stringify(promptHistory));
+    } catch (error) {
+      console.error("履歴の保存に失敗しました:", error);
+    }
+  }, [promptHistory]);
+
+  // 履歴に追加する関数
+  const addToHistory = (promptText: string) => {
+    if (!promptText.trim()) return;
+    
+    const selectedCategoryData = promptCategories.find(
+      (cat) => cat.id === selectedCategory
+    );
+    
+    const historyItem: PromptHistoryItem = {
+      id: Date.now().toString(),
+      prompt: promptText.trim(),
+      timestamp: Date.now(),
+      categoryId: selectedCategory || undefined,
+      categoryLabel: selectedCategoryData?.label,
+    };
+
+    setPromptHistory((prev) => {
+      // 重複チェック：同じプロンプトがあれば削除
+      const filtered = prev.filter((item) => item.prompt !== promptText.trim());
+      // 新しいアイテムを先頭に追加し、最大50件まで保持
+      return [historyItem, ...filtered].slice(0, 50);
+    });
+  };
 
   const handleCategorySelect = (categoryId: string) => {
     setSelectedCategory(categoryId);
@@ -134,6 +189,9 @@ export function TextGenerator() {
 
   const handleGenerate = async () => {
     if (!prompt.trim()) return;
+
+    // 履歴に追加
+    addToHistory(prompt);
 
     const controller = new AbortController();
     setAbortController(controller);
@@ -318,6 +376,17 @@ export function TextGenerator() {
                   "✨ 生成"
                 )}
               </Button>
+              <Button
+                onClick={() => setShowHistory(!showHistory)}
+                variant="outline"
+                className={`min-h-[44px] transition-all duration-200 ${
+                  showHistory
+                    ? "bg-blue-50 border-blue-300 text-blue-700"
+                    : "hover:bg-blue-50 hover:border-blue-300"
+                }`}
+              >
+                <History className="w-4 h-4" />
+              </Button>
               {isGenerating && (
                 <Button
                   onClick={handleStop}
@@ -328,6 +397,76 @@ export function TextGenerator() {
                 </Button>
               )}
             </div>
+
+            {showHistory && (
+              <div className="mt-4 space-y-3">
+                <div className="flex justify-between items-center">
+                  <h4 className="font-medium text-sm text-muted-foreground flex items-center gap-2">
+                    <Clock className="w-4 h-4" />
+                    プロンプト履歴
+                  </h4>
+                  {promptHistory.length > 0 && (
+                    <Button
+                      onClick={() => {
+                        setPromptHistory([]);
+                        toast.success("履歴をクリアしました");
+                      }}
+                      variant="outline"
+                      size="sm"
+                      className="text-red-600 hover:bg-red-50 hover:border-red-300"
+                    >
+                      <Trash2 className="w-3 h-3 mr-1" />
+                      クリア
+                    </Button>
+                  )}
+                </div>
+                
+                <div className="max-h-40 overflow-y-auto space-y-2">
+                  {promptHistory.length === 0 ? (
+                    <p className="text-sm text-muted-foreground text-center py-4">
+                      履歴はまだありません
+                    </p>
+                  ) : (
+                    promptHistory.map((item) => (
+                      <div
+                        key={item.id}
+                        className="border rounded-lg p-3 hover:bg-blue-50/30 hover:border-blue-200 cursor-pointer transition-all duration-200"
+                        onClick={() => setPrompt(item.prompt)}
+                      >
+                        <div className="flex justify-between items-start gap-2 mb-1">
+                          <p className="text-sm font-medium text-gray-800 line-clamp-2">
+                            {item.prompt}
+                          </p>
+                          <Button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setPromptHistory(prev => 
+                                prev.filter(h => h.id !== item.id)
+                              );
+                              toast.success("履歴を削除しました");
+                            }}
+                            variant="ghost"
+                            size="sm"
+                            className="p-1 h-6 w-6 text-gray-400 hover:text-red-600 shrink-0"
+                          >
+                            <Trash2 className="w-3 h-3" />
+                          </Button>
+                        </div>
+                        <div className="flex justify-between items-center text-xs text-muted-foreground">
+                          <span>{item.categoryLabel || "カテゴリなし"}</span>
+                          <span>{new Date(item.timestamp).toLocaleString("ja-JP", {
+                            month: "short",
+                            day: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit"
+                          })}</span>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         </CardContent>
       </Card>
