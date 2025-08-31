@@ -79,6 +79,18 @@ export function ImageGenerator() {
                 className="text-lg min-h-[56px] resize-none"
                 maxLength={300}
               />
+              <div className="mt-2 p-3 bg-blue-50/50 rounded-lg border border-blue-200">
+                <p className="text-sm text-muted-foreground mb-2">
+                  💡 画像のスタイル例
+                </p>
+                <div className="grid grid-cols-2 gap-2 text-sm text-blue-700">
+                  <span>• イラスト風・マンガ風</span>
+                  <span>• ポップ・かわいい</span>
+                  <span>• 写真風・リアル</span>
+                  <span>• 水彩画風・油絵風</span>
+                  <span>• アイコン風・ポスター風</span>
+                </div>
+              </div>
             </div>
 
             <div>
