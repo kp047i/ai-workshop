@@ -11,7 +11,7 @@ export const openai = new OpenAI({
 
 export async function generateText(prompt: string): Promise<ReadableStream<Uint8Array>> {
   const response = await openai.chat.completions.create({
-    model: 'gpt-3.5-turbo',
+    model: 'chatgpt-4o-latest',
     messages: [{ role: 'user', content: prompt }],
     stream: true,
   });
@@ -40,7 +40,7 @@ export async function generateText(prompt: string): Promise<ReadableStream<Uint8
 
 export async function generateImage(prompt: string, size: 512 | 768 = 512) {
   const response = await openai.images.generate({
-    model: "gpt-image-1",
+    model: "dall-e-3",
     prompt,
     n: 1,
     size: size === 512 ? "1024x1024" : "1024x1024",
